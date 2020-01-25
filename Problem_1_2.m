@@ -39,10 +39,8 @@ loglog(Re, x(:,1)',Re, x(:,2)',Re, x(:,3)',Re, x(:,4)',Re, x(:,5)' )
 title('Problem 1.2: Moody Diagram')
 xlabel('Reynolds Number')
 ylabel('Friction Factor')
-leg = legend('0.05','0.01','0.002','2*10^-4','5*10^-6','Location','southwest')
+leg = legend('0.05','0.01','0.002','2*10^-4','5*10^-6','Location','southwest');
 title(leg, 'Relative Roughness')
 axis ([4000 10^8 0 0.1])
 yticks([0 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1])
 grid on
-            
-            
