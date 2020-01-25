@@ -5,19 +5,25 @@ clc
 
 
 %%Establishing some inputs and Variables
-x = 20;
-y = 0.25;
-
-tol = 0.000000000001;
-
+x = [1, 2.5, 5, 22.2314, 40];
+y = [0.25, 0.5, 2, 4, 10];
+tol = 1*10^-26;
+for q = 1:length(x)
+    for w = 1:length(y)
 tic
 for k = 1:1000
 
 %Calling our function to calculate ln(x)
-lnX = tSeriesLN(x);
+if x(q) > 0 && x ~= 1
+    lnX = tSeriesLN(x(q));
+elseif x(q) == 1
+    lnX = 0;
+elseif x(q) == 0 | x(q) < 0
+    error('You cannot use this method to process a negative number')
+end
 
 %Now we will find a new n and z
-y2 = y*lnX;
+y2 = y(w)*lnX;
 n2 = floor(y2);
 z2 = y2 - n2;
 tSeriesE = 1;
@@ -49,13 +55,14 @@ end
 %Using the built in function
 tic
 for k = 1:1000
-bInValue = x^y;
+bInValue = x(q)^y(w);
 bInTime(k) = toc;
 end
 
 %Reporting Solutions and comparing
-fprintf('Using simple arithmetic the value is %.6f and the time to complete is %d  \n', finalValue, mean(calcTime))
-
-fprintf('Using built-in command the value is %.6f and the time to complete is %d \n', bInValue, mean(bInTime))
-
+fprintf('For the value of x = %.3f and y = %.3f we get the following results \n', x(q), y(w))
+fprintf('Using simple arithmetic the value is %.6f and the time to complete is %ds  \n', finalValue, mean(calcTime))
+fprintf('Using built-in command the value is %.6f and the time to complete is %ds \n', bInValue, mean(bInTime))
+    end
+end
 

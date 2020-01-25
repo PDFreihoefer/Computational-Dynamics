@@ -6,13 +6,15 @@ mIter = 1000000; %We will establish the max iterations to preserve speed on any 
 nIter1 = 0;
 n = floor(x/exp(1));
 E = 1;
+tol = 1*10^-26;
+
 for l = 1:n
    E = E*exp(1); 
 end
 
 z = x/E;
 
-tol = 1*10^-26;
+
 
 if n == 0
     z = x/2;
