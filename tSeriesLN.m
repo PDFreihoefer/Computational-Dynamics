@@ -23,7 +23,6 @@ end
 %Establishing knowns and variables
 j = 1; %We "manually" input the first term of the Taylor series so we will
 %be using j to help with each subsequent iteration
-nIter1 = 0;
 nIter2 = 0;
 tSeriesLN = 0;
 tSeriesLN2 = 0;
