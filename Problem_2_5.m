@@ -46,8 +46,8 @@ facSafeA = sqrt(1/2*((A(1)-A(5))^2+(A(5)-A(9))^2+(A(9)-A(1))^2+6*(A(4)^2+A(8)^2+
 facSafeB = sqrt(1/2*((prinStress1-prinStress2)^2+(prinStress2-prinStress3)^2+(prinStress3-prinStress1)^2));
 
 %Sub-Part C
-
-sigDev = A-1/3*trace(A);
+I = eye(size(A));
+sigDev = A-1/3*trace(A)*I;
 j2 = 1/2*trace(sigDev^2);
 facSafeC = sqrt(3*j2);
 

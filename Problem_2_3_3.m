@@ -10,7 +10,7 @@ clc
 %alternating with 1 & -1 (we can cheat a little and assume that we want to
 %use the co-factor expansion method to our advantage.
 
-A = [1 -1 1 -1 1 -1; 0 0 0 0 0 0; 0 0 0 0 0 0; 0 0 0 0 0 0; 0 0 0 0 0 0; 0 0 0 0 0 0];
+A = [];
 sign = -1;
 
 %We want to consider the number of possibilities of a 5x6 matrix of
