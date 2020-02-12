@@ -55,9 +55,19 @@ for j = 1:sizeMat-2
     end
 end
         
+%Creating the grid points
+xDec = 5;
+for i = 1:sizeMat
+    for j = 1:sizeMat
+        x(i,j) = j;
+        y(i,j) = xDec;
+    end
+    xDec = xDec - 1;
+end
+
 %Creating the Contour Plot
 figure ()
-contour(contMat)
+contourf(x, y, contMat)
 
 %Showing the convergence
 trueValue(1:iter+1) = tempSol(1);
