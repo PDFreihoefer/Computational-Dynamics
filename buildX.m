@@ -8,16 +8,14 @@ function [X] = buildX(x,f,n)
 %n - Number of functions/size of polynomial
 
 %Preparing for our loop
-%X is a square array of size (n+1,n+1) 
+%X is a square array
+p = length(x);
 
-for i = 1:n+1
-    fPull = f{i};
-    for j = 1:n+1
-        if j == 1
-            X(i,j) = 1;
-        else
-            X(i,j) = fPull(i);
-        end
+for i = 1:p
+    for j = 1:n
+        a = zeros(n,1);
+        a(j) = 1;
+        X(i,j) = f(x(i),a);
     end
 end
 
