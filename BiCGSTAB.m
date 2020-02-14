@@ -1,7 +1,5 @@
-%Unpreconditioned BiCGSTAB
-
 function [xF, iter, time, flag, resid] = BiCGSTAB(A, b, tol)
-
+%Unpreconditioned BiCGSTAB
 %Capping and preparing for our loops
 iter = 0;
 iterMax = 1000000;
@@ -11,7 +9,7 @@ flag = 0;
 %We will start with an initial guess of 1 for each value but this value
 %doesn't considerably affect the time or number of iterations
 x0(1:length(A),1) = 1;
-resid(:,1) = x0;
+i = 1;
 r0 = b-A*x0;
 rHat = r0;
 rhoPrev = 1;
@@ -19,6 +17,7 @@ a = 1;
 w = 1;
 v = 0;
 p = 0;
+
 
 %This while loop will stop when we meet the BiCGSTAB requirements to exit
 %the loop
@@ -43,7 +42,8 @@ while flag == 0
     x = h+w*s;
     
     %Second Check
-    if x - x0 < tol
+    resid(:,i) = x - x0;
+    if resid < tol
         xF = x;
         flag = 2;
     end
@@ -51,10 +51,10 @@ while flag == 0
     x0 = x;
     
     %Counting the number of iterations
+    i = i + 1;
     iter = iter+1;
     if iter == iterMax
         flag = -1;
     end
-    resid(:,iter+1) = x;
 end
 time = toc;

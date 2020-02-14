@@ -20,11 +20,12 @@ kBI = cond(T);
 
 %Comparing
 diffK = (kBI-kSig);
-fprintf('The difference between the built-in command and our equation is: %e',diffK)
+fprintf('The difference between the built-in command and our equation is: %e\n',diffK)
+%Solution is: The difference between the built-in command and our equation is: -7.993606e-15
 
 %Part 3
 tol = 0.00001;
-[xBiCGSTAB, iter, time, flag, resid] = BiCGSTAB(T,b,tol);
+[xBiCGSTAB, iterB, time, flag, residB] = BiCGSTAB(T,b,tol);
 
 %Contour Plots Setup
 boundT = size(T);
@@ -66,31 +67,41 @@ for i = 1:sizeMat
 end
 
 %Creating the Contour Plot
-figure ()
+figure
 contourf(x, y, contMat)
-
-%Showing the convergence
-trueValue(1:iter+1) = tempSol(1);
-figure()
-plot([0:iter], resid(1,:), [0:iter], trueValue)
-grid on
-xlabel('Iteration Number')
-ylabel('Temperature (F)')
-legend('BiCGSTAB', 'Actual Value', 'location','southeast')
-title('Convergence of Solvers')
+title('Contour Plot of the Temperatures of the Plate')
+xlabel('X Grid Position')
+ylabel('Y Grid Position')
 
 %%3.1.2
 
 %Part 1: SOR Method
 %Given the matrices already we plug everything into our SOR function
-[xSOR, iterSOR, flag, resid] = SOR(T, b, tol);
-tolMat(1,1:length([0:iterSOR])) = tol;
+[xSOR, iterSOR, flag, residSOR] = SOR(T, b, tol);
+tolMat(1,1:length([1:iterSOR])) = tol;
 
-%Plotting Convergence
-figure()
-plot([0:iterSOR], [1,resid], [0:iterSOR], tolMat)
+
+%Plotting Convergence of BiCGSTAB
+figure
+subplot(1,2,1)
+hold on
+plot([1:iterB], residB) 
+plot([1:iterB], tolMat(1:iterB), 'linewidth', 2)
 grid on
 xlabel('Iteration Number')
 ylabel('Residual')
-legend('SOR', 'Tolerance', 'location','southeast')
-title('Convergence of Solvers')
+legend('(1,1)','(2,1)','(3,1)','(1,2)','(2,2)','(3,2)','(1,3)','(2,3)','(3,3)', 'Tolerance', 'location','northeast')
+title('Convergence of BiCGSTAB')
+
+%Plotting Convergence of SOR
+subplot(1,2,2)
+hold on
+plot([1:iterSOR], residSOR)
+plot([1:iterSOR], tolMat, 'linewidth', 2)
+ax2 = max(iterSOR);
+axis([1 ax2 0 70])
+grid on
+xlabel('Iteration Number')
+ylabel('Residual')
+legend('(1,1)','(2,1)','(3,1)','(1,2)','(2,2)','(3,2)','(1,3)','(2,3)','(3,3)', 'Tolerance', 'location','northeast')
+title('Convergence of SOR')
