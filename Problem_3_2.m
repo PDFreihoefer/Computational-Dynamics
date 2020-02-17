@@ -31,7 +31,8 @@ end
 
 %%Part 3-5: Functions
 
-%Creating some noise for x
+%Creating some noise for x, couldn't get awgn to work because I did not
+%have the Communication Toolbox
 x = randn(1,100)*5;
 x = sort(x);
 
