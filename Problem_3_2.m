@@ -47,7 +47,7 @@ a = myCurveFit(X,y');
 XTreloar = buildX(dataSix(:,1), @fTreloar, 5);
 aTreloar = myCurveFit(XTreloar,dataSix(:,2));
 
-xTreloar = 1:0.1:7;
+xTreloar = 1:0.1:8;
 
 fTreCheck = 2*(xTreloar-xTreloar.^(-2)).*(aTreloar(1)+aTreloar(2).*xTreloar.^(-1)+2*aTreloar(3).*(xTreloar.^2+2.*xTreloar.^(-1)-3)+2*aTreloar(4).*(2.*xTreloar+xTreloar.^(-2)-3)+3*aTreloar(5).*(xTreloar-1-xTreloar.^(-1)+xTreloar.^(-2)));
 coeffT = polyfit(dataSix(:,1),dataSix(:,2), 4);
@@ -57,6 +57,7 @@ figure
 hold on
 plot(xTreloar, fTreCheck, 'linewidth', 2)
 plot(xTreloar, polyT,'r','linewidth', 2)
+plot(dataSix(:,1), dataSix(:,2),'g','linewidth', 2)
 grid on 
 xlabel('Strain')
 ylabel('Stress [kg/cm^2]')
