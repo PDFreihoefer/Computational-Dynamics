@@ -51,17 +51,21 @@ fprintf('The rank of the Observability Matrix is: %i \n', rankO)
 %%Part 3: Picking Poles
 
 %We must have a settling time of 2s
-OS = 20/100; %We will pick an overshoot because we only care about TS
+OS = 10/100; %We will pick an overshoot because we only care about TS
 TS = 2; %[sec]
 
 %Choosing our Poles
-zeta = sqrt(log(OS)^2/(pi()^2+log(OS)^2));
+zeta = sqrt(log(OS)^2/(pi^2+log(OS)^2));
 wn = 4/zeta/TS;
 
+sx1 = -zeta*wn + 1j*wn*sqrt(1-zeta^2);
+sx2 = conj(sx1);
+sx3 = 5*real(sx1);
+sx4 = 10*real(sx1);
 
 
 
-%%Controls Toolbox
+%%Part 4: Designing a Controller
 
 %Let's set up our equation from 4.1 into MATLAB
 
@@ -69,3 +73,16 @@ wn = 4/zeta/TS;
 %tFD = m2m1*s^4+(c2m1-m2c1)s^3+(k2m1-c1c2-m2k1)*s^2+(-k1c2-k2c1)*s-k1k2, the
 %denominator of our transfer function
 G = tf([m1,-c1,k1],[m2*m1, c2*m1-m2*c1, k2*m1-c1*c2-m2*k1, -k1*c2-k2*c1, -k1*k2]);
+
+
+%Building K
+d = flip( poly([sx1,sx2,sx3,sx4]) );
+a = [200,8,10.08,0.2];
+k = d(1:end-1) - a;
+
+%% Check results
+T = ss( A-B*k, B, C, D );
+step(T)
+stepinfo(T)
+
+%%Part 5: 
