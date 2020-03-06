@@ -63,7 +63,10 @@ sx2 = conj(sx1);
 sx3 = 5*real(sx1);
 sx4 = 10*real(sx1);
 
-
+sx1 = -zeta*wn + 1j*wn*sqrt(1-zeta^2);
+sx2 = conj(sx1);
+sx3 = 5*real(sx1);
+sx4 = 10*real(sx2);
 
 %%Part 4: Designing a Controller
 
@@ -74,6 +77,7 @@ sx4 = 10*real(sx1);
 %denominator of our transfer function
 G = tf([m1,-c1,k1],[m2*m1, c2*m1-m2*c1, k2*m1-c1*c2-m2*k1, -k1*c2-k2*c1, -k1*k2]);
 
+<<<<<<< HEAD
 
 %Building K
 d = flip( poly([sx1,sx2,sx3,sx4]) );
@@ -86,3 +90,12 @@ step(T)
 stepinfo(T)
 
 %%Part 5: 
+=======
+%%Part 4: Designing a Controller
+%From the transfer function we derived by hand we can create a controller
+%similar to the way we did it in class
+
+d = flip( poly([sx1,sx2,sx3,sx4]) );
+a = 1;
+k = d(1:end-1) - a
+>>>>>>> 9e70943f9dbb1b979705a118df971fd3fc3acd00
