@@ -59,7 +59,10 @@ zeta = sqrt(log(OS)^2/(pi()^2+log(OS)^2));
 wn = 4/zeta/TS;
 
 
-
+sx1 = -zeta*wn + 1j*wn*sqrt(1-zeta^2);
+sx2 = conj(sx1);
+sx3 = 5*real(sx1);
+sx4 = 10*real(sx2);
 
 %%Controls Toolbox
 
@@ -69,3 +72,11 @@ wn = 4/zeta/TS;
 %tFD = m2m1*s^4+(c2m1-m2c1)s^3+(k2m1-c1c2-m2k1)*s^2+(-k1c2-k2c1)*s-k1k2, the
 %denominator of our transfer function
 G = tf([m1,-c1,k1],[m2*m1, c2*m1-m2*c1, k2*m1-c1*c2-m2*k1, -k1*c2-k2*c1, -k1*k2]);
+
+%%Part 4: Designing a Controller
+%From the transfer function we derived by hand we can create a controller
+%similar to the way we did it in class
+
+d = flip( poly([sx1,sx2,sx3,sx4]) );
+a = 1;
+k = d(1:end-1) - a
