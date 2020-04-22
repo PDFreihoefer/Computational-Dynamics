@@ -7,8 +7,8 @@ using LinearAlgebra
 include("C:/Users/paulf/Documents/GitHub/Computational-Dynamics/TrapRule.jl")
 using .TrapRule
 ##Loading our Runge Kutta Methods:
-include("C:/Users/paulf/Documents/GitHub/Computational-Dynamics/AB2.jl")
-using .AB2
+include("C:/Users/paulf/Documents/GitHub/Computational-Dynamics/RungeKutta2.jl")
+using .RungeKutta2
 ##Prelimnary Work
 #We want to write out the Trapezoidal Rule to solve the differential equation
 #ẋ = λx is our differential equation
@@ -24,53 +24,31 @@ using .AB2
 #hλ<0 to be stable which means that λ must be negative and h can be anything for this method to stay stable
 ##Setting up the Problem
 f(x,t) = λ*x #The function we are working with
-λ = -731 #Let's define some value to start
+λ = -1 #Let's define some value to start
 x0 = 1 #Initial guess
-#h = 1 Failed to converge
-#h = 0.01 Failed to converge
-h1 = 0.0001
-h2 = 0.00001
-h3 = 0.000001
+h = 0.01 #Time step
 tf = 5 #Final time
 
 ##Plotting the exact equation
 x_exact(t) = exp.(λ*t)*x0
 
 plot( x_exact, 0, tf, label="Exact Solution")
-##Plotting the Implicit Midpoint Method Results
-#tRuleX, tRuleT = tRule(f, tf, h1, x0)
+##Plotting the trap rule equation
+tRuleX, tRuleT = tRule(f, tf, h, x0)
 
-#plot!( tRuleT, tRuleX, label="h = .0001")
+plot!( tRuleT, tRuleX, label="Trapezoidal Rule")
+##Plotting the runge kutta equation
+#First we want to establish the different alphas
+α1 = 1/4
+α2 = 1/2
+α3 = 2/3
 
-#tRuleX, tRuleT = tRule(f, tf, h2, x0)
+#Now we find the x values for each and plot against our exact equation and our trap rule equation
+rKuttaX1, rKuttaT = rKutta(f,tf,h,x0,α1)
+rKuttaX2, rKuttaT = rKutta(f,tf,h,x0,α2)
+rKuttaX3, rKuttaT = rKutta(f,tf,h,x0,α3)
 
-#plot!( tRuleT, tRuleX, label="h = 0.00001")
-
-#tRuleX, tRuleT = tRule(f, tf, h3, x0)
-
-#plot!( tRuleT, tRuleX, label="h=0.000001",
-        #xlabel="Time t [s]", ylabel="x(t)", title="Implicit Midpoint Method vs. Exact Solution")
-##Plotting AB2 Results
-AB2X, AB2T = ab2(f, tf, h1, x0)
-
-plot!( AB2T, AB2X, label="h = .0001")
-
-AB2X, AB2T = ab2(f, tf, h2, x0)
-
-plot!( AB2T, AB2X, label="h = 0.00001")
-
-AB2X, AB2T = ab2(f, tf, h3, x0)
-
-plot!( AB2T, AB2X, label="h=0.000001",
-        xlabel="Time t [s]", ylabel="x(t)", title="2-Stage Adam Basthforth Method vs. Exact Solution")
-##Conclusion
-#AB2:
-#
-
-#IM:
-#The system will never converge at some eigenvalues if you actually use the max time step and max out the
-#iterations at some value. We could increase the max iterations but it will become more and more expensive
-#to run the method and we will need to increase the range of time we are looking at as well. It makes more sense
-#to decrease the final time and decrease the step size to lower the overall cost of running the equation. It
-#should also be noted that with using a very large step size the equation the method isn't as good at approximating
-#the exact solution. We can see in this plot that the
+plot!(rKuttaT, rKuttaX1, label="Runge Kutta α=1/4")
+plot!(rKuttaT, rKuttaX2, label="Runge Kutta α=1/2")
+plot!(rKuttaT, rKuttaX3, label="Runge Kutta α=2/3"
+        xlabel="Time t [s]", ylabel="x(t)", title="Approximation Methods vs. Exact Solution")
